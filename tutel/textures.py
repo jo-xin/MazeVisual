@@ -6,7 +6,7 @@
 
 from ursina import Entity
 from ursina import load_texture
-from tutel.entrance import application
+from tutel import entrance
 
 
 class TextureLib:
@@ -14,7 +14,7 @@ class TextureLib:
 
 
 
-
+application = entrance.application
 
 
 
