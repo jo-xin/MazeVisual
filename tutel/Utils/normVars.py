@@ -8,6 +8,7 @@
 from os.path import dirname, basename, realpath, join
 from sys import argv
 
+
 class VARS:
     BASE_FOLDER_NAME = "MazeVisual"
     TEXTURE_REL_PATH = join("tutel", "texture")
@@ -18,7 +19,3 @@ class VARS:
         BASE_DIR = dirname(BASE_DIR)
 
     TEXTURE_DIR = join(BASE_DIR, TEXTURE_REL_PATH)
-
-
-
-
