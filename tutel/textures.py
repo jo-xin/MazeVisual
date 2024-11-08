@@ -4,20 +4,24 @@
 # @Author  : jo-xin
 # @File    : textures.py
 
+from os.path import join
 from ursina import Entity
 from ursina import load_texture
-from tutel import entrance
+
+from tutel.entrance import application as app
+
+
+def name_to_rel(name: str) -> str:
+    return join("texture", name)
 
 
 class TextureLib:
-    light_blue_concrete = load_texture(".\\texture\\light_blue_concrete.png")
+    light_blue_concrete = load_texture(name_to_rel("light_blue_concrete.png"))
+    line_concrete = load_texture(name_to_rel("lime_concrete.png"))
 
 
-
-application = entrance.application
-
-
+application = app
 
 if __name__ == '__main__':
-    cube = Entity(model="cube", scale=(4, 4, 4), texture=TextureLib.light_blue_concrete)
+    cube = Entity(model="cube", scale=(4, 4, 4), texture=TextureLib.line_concrete)
     application.run()
