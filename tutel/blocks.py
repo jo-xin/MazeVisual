@@ -21,6 +21,7 @@ def name_to_rel(name: str) -> str:
 class TextureLib:
     light_blue_concrete = load_texture(name_to_rel("light_blue_concrete.png"))
     line_concrete = load_texture(name_to_rel("lime_concrete.png"))
+    orange_glass = load_texture(name_to_rel("orange_stained_glass.png"))
 
     sunset_sky = load_texture(name_to_rel("sunset.jpeg"))
 

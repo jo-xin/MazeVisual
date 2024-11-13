@@ -19,3 +19,5 @@ class VARS:
         BASE_DIR = dirname(BASE_DIR)
 
     TEXTURE_DIR = join(BASE_DIR, TEXTURE_REL_PATH)
+
+
