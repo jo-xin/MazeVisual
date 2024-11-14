@@ -1,4 +1,3 @@
-# 没debug 也许能用?
 import random
 import sys  # 导入sys模块
 
@@ -35,3 +34,4 @@ def generate(maze):
     maze.single[origin[0]][origin[1]]=False
     maze.visited[target[0]][target[1]] = True
     maze.single[target[0]][target[1]] = False
+    maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
