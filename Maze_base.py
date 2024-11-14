@@ -66,13 +66,8 @@ class BasicMaze:
     
     # 打印迷宫
     def print_maze(self):
-        for i in range(self.y_lim):
-            for j in range(self.x_lim):
-                if self.single[i][j]:
-                    print('#', end='')
-                else:
-                    print(' ', end='')
-        print()
+        for row in self.single:
+            print(''.join('#' if cell else ' ' for cell in row))
 
 # 第二种表达方式，墙壁不占位，只有通道占
 # class BasicMaze2:

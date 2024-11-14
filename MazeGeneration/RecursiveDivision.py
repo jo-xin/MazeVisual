@@ -3,7 +3,8 @@ sys.path.append('..')
 from Maze_base import BasicMaze
 import random
 
-def generate(bm) -> BasicMaze:
+def generate(x,y) -> BasicMaze:
+    bm = BasicMaze(x,y)
     bm.single = [[False for _ in range(bm.x_lim)] for _ in range(bm.y_lim)]
     bm.single[0] = [True for _ in range(bm.x_lim)]
     bm.single[-1] = [True for _ in range(bm.x_lim)]
@@ -83,7 +84,5 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
         divide(list_obj, x, y, right, bottom,out)
 
 if __name__ == '__main__':
-    m,n = 20,20
-    i = BasicMaze(m,n)
-    maze = generate(i)
-    maze.show()
+    maze = generate(20,20)
+    maze.print_maze()
