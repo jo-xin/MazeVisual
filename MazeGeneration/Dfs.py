@@ -8,7 +8,6 @@ def check_passage(maze, new_x, new_y, current_dx, current_dy):
         if dx+new_x == current_dx and dy+new_y == current_dy:
             continue
         next_x, next_y = new_x + dx, new_y + dy
-
         if maze.is_visited(next_x, next_y):
             return False
     return True
@@ -26,9 +25,6 @@ def dfs(maze, x, y):
                 # 打通墙
                 maze.single[new_x][new_y] = False
                 dfs(maze, new_x, new_y)
-
-# def setTarget(maze):
-
 
 def generate(maze):
     origin = maze.origin
