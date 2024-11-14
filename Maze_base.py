@@ -43,6 +43,14 @@ class BasicMaze:
         if self.is_valid_position(x, y):
             self.visited[x][y] = True
 
+    def find_surround(self, x, y):
+        surround = []
+        for dx, dy in self.directions:
+            nx, ny = x + dx, y + dy
+            if self.is_valid_position(nx, ny) and not self.is_visited(nx, ny):
+                surround.append((nx, ny))
+        return surround
+
     # 随机选择起点终点，可选
     def choose_start_and_end(self):
         start_x = random.randint(0, self.x_lim - 1)
