@@ -1,5 +1,6 @@
 # 没debug 也许能用?
 import random
+import sys  # 导入sys模块
 
 
 def check_passage(maze, new_x, new_y, current_dx, current_dy):
@@ -7,6 +8,7 @@ def check_passage(maze, new_x, new_y, current_dx, current_dy):
         if dx+new_x == current_dx and dy+new_y == current_dy:
             continue
         next_x, next_y = new_x + dx, new_y + dy
+
         if maze.is_visited(next_x, next_y):
             return False
     return True
@@ -25,7 +27,15 @@ def dfs(maze, x, y):
                 maze.single[new_x][new_y] = False
                 dfs(maze, new_x, new_y)
 
+# def setTarget(maze):
+
+
 def generate(maze):
     origin = maze.origin
+    target = maze.target
     maze.visited[origin[0]][origin[1]]=True
+    sys.setrecursionlimit(maze.x_lim*maze.y_lim)  # 将默认的递归深度修改为3000
     dfs(maze,origin[0],origin[1])
+    maze.single[origin[0]][origin[1]]=False
+    maze.visited[target[0]][target[1]] = True
+    maze.single[target[0]][target[1]] = False
