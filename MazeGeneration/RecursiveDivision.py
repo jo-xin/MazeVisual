@@ -82,17 +82,8 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
         divide(list_obj, left, y, x, bottom,out)
         divide(list_obj, x, y, right, bottom,out)
 
-def show(list_obj: BasicMaze):
-    for i in range(list_obj.y_lim):
-        for j in range(list_obj.x_lim):
-            if list_obj.single[i][j]:
-                print('#', end='')
-            else:
-                print(' ', end='')
-        print()
-
 if __name__ == '__main__':
     m,n = 20,20
     i = BasicMaze(m,n)
     maze = generate(i)
-    show(maze)
+    maze.show()

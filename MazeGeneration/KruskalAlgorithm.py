@@ -36,7 +36,7 @@ def generate(rows, columns):
 
     edges = []
     for i in range(rows * columns):
-        for neighbor in result.surround(i):
+        for neighbor in result.find_surround(i):
             if i > neighbor:  # Avoid duplicate edges
                 edges.append((i, neighbor))
 
@@ -45,6 +45,14 @@ def generate(rows, columns):
     for u, v in edges:
         if not uf.connected(u, v):
             uf.union(u, v)
-            result.connect(u, v)
+            x = u // columns
+            y = u % columns
+            result.single[x][y] = False
 
     return result
+
+if __name__ == '__main__':
+    m,n = 20,20
+    i = BasicMaze(m,n)
+    maze = generate(i)
+    maze.show()
