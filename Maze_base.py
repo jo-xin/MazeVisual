@@ -17,7 +17,7 @@ class BasicMaze:
         self.directions: list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
         # 格子情况，True表示有障碍物，False表示没有障碍物
-        self.single = [[False for _ in range(x_lim)] for _ in range(y_lim)]
+        self.single = [[True for _ in range(x_lim)] for _ in range(y_lim)]
 
         # 记录是否被访问过
         self.visited = [[False for _ in range(x_lim)] for _ in range(y_lim)]
