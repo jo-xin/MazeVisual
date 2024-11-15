@@ -72,7 +72,7 @@ class BasicMaze:
                     print('#', end='')
                 else:
                     print(' ', end='')
-        print()
+            print()
 
 # 第二种表达方式，墙壁不占位，只有通道占
 # class BasicMaze2:
