@@ -56,9 +56,23 @@ class BasicMaze:
         self.target = (end_x, end_y)
         return (start_x, start_y), (end_x, end_y)
     
+    def find_surround(self, x, y):
+        surround = []
+        for dx, dy in self.directions:
+            nx, ny = x + dx, y + dy
+            if self.is_valid_position(nx, ny) and not self.is_visited(nx, ny):
+                surround.append((nx, ny))
+        return surround
+    
     # 打印迷宫
     def print_maze(self):
-        pass
+        for i in range(self.y_lim):
+            for j in range(self.x_lim):
+                if self.single[i][j]:
+                    print('#', end='')
+                else:
+                    print(' ', end='')
+        print()
 
 # 第二种表达方式，墙壁不占位，只有通道占
 # class BasicMaze2:
