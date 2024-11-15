@@ -7,7 +7,8 @@ def dfs(maze:BasicMaze,new_x:int,new_y:int,last_x:int,last_y:int,history:queue.Q
     if new_x == maze.target[0] and new_y == maze.target[1]:
         # print("find target")
         # print(new_x,new_y)
-        history.put((-1,-1)) # 找到了一个解
+        if history is not None:
+            history.put((-1,-1)) # 找到了一个解
         return 1
     maze.visited[new_x][new_y] = True
     # add queue

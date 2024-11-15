@@ -11,20 +11,28 @@ def Bfs(maze:BasicMaze,que:queue.Queue,new_x:int,new_y:int,dist:int,history:queu
         if maze.is_valid_position(next_x,next_y):
             if not maze.is_visited(next_x,next_y) and not maze.is_wall(next_x,next_y):
                 maze.visited[next_x][next_y] = True
+                # add history
+                if history is not None:
+                    history.put((next_x,next_y))
                 que.put((next_x,next_y,dist+1))
     return dist,False
 
 
 
-def Bfs_sol(maze:BasicMaze):
+def bfs_sol(maze:BasicMaze, history:queue.Queue=None):
     que = queue.Queue()
     origin = maze.origin
-    que.put((origin[0],origin[1],1))
+    que.put((origin[0],origin[1],0))
+    if history is not None:
+        history.put((origin[0],origin[1]))
     flag = False
     ans=0
-    while not flag or not que.empty():
+    while not flag:
         x,y,dist=que.get()
-        ans,flag=Bfs(maze,que,x,y,dist)
+        ans,flag=Bfs(maze,que,x,y,dist,history)
+        if que.empty():
+            break
+    maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
     if flag:
         return ans
     else:
