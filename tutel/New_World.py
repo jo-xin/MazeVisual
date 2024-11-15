@@ -3,39 +3,60 @@
 # @Time    : 2024/10/30 11:02
 # @Author  : jo-xin
 # @File    : New_World.py
+import queue
+
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 
-from tutel import blocks, camera
-
+from tutel import blocks, camera, walker
 
 BLOCKS = (blocks.TextureLib.line_concrete, blocks.TextureLib.orange_glass, blocks.TextureLib.light_blue_concrete)
+
+bb = [[0 for _ in range(40)] for _ in range(40)]
+
 # Set up the grid of blocks
 height = 1
 for y in range(0, height):
     for z in range(-15, 16):
         for x in range(-15, 16):
-            blocks.Block(position=(x, y, z), texture=BLOCKS[(x+z)%3])
+            bb[x + 15][z + 15] = blocks.Block(position=(x, y, z), texture=BLOCKS[(x + z) % 3])
+
+for y in range(0, height):
+    for z in range(-1, 2):
+        for x in range(-1, 2):
+            bb[x + 15][z + 15].enabled = False
+            blocks.Block(position=(x, y, z), texture=blocks.TextureLib.quartz_block_bottom)
+
 
 # Add sky to the scene
 sky = Sky()
+player = FirstPersonController()
 
-main_camera = camera.Camera()
-main_camera.camera.position = Vec3(0, 1, -16)
 
-for i in range(20):
-    walking_duration = 0.9
-    revolving_duration = 0.1
+"""
+Here is An WAlker
+"""
 
-    main_camera.position.append(camera.Step(Vec3(0, 0, 1), walking_duration))
-    main_camera.position.append(camera.Step(Vec3(0, 0, 0), revolving_duration))
+# q = queue.Queue()
+# q.put((1, 1))
+# q.put((1, 2))
+# # q.put((1, 3))
+# # q.put((2, 3))
+# # q.put((2, 4))
+# # q.put((2, 5))
+# # q.put((1, 5))
+# # q.put((1, 4))
+# # q.put((1, 3))
+# # q.put((1, 2))
+#
+# mm_walker = walker.AnWalker(camera.Camera(), q)
+# # mm_walker.set_config()
+# mm_walker.ghostPath()
+#
+#
+# def update():
+#     mm_walker.walk()
 
-    main_camera.rotation.append(camera.Step(Vec3(0, 0, 0), walking_duration))
-    main_camera.rotation.append(camera.Step(Vec3(0, 90, 0), revolving_duration))
-
-def update():
-    global main_camera
-    main_camera.update()
 
 #
 # # Set the initial camera position and movement parameters
@@ -78,7 +99,6 @@ def update():
 #
 # # Start the movement
 # set_next_target()
-
 
 
 blocks.application.run()

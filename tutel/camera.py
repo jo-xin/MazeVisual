@@ -30,6 +30,9 @@ class Stepper:
         self.target: Vec3 = Vec3(0, 0, 0)  # teh target position for this step
         self.walking: bool = False  # is walking currently
 
+        self.ima = 0
+        self.history = []
+
     def append(self, step: Step):
         """
         append Step into the queue
@@ -72,6 +75,7 @@ class Stepper:
         """
         if self.steps.empty():
             self.walking = False
+            print(self.history)
         else:
             self.plan_next_step(current_position)
 
@@ -82,6 +86,10 @@ class Stepper:
         :return: None
         """
         step = self.steps.get()
+        self.ima += step.duration
+        self.history.append((self.ima, step.delta))
+        # print(f"At {self.ima} doing {step.delta}")
+        # print(time.dt)
         self.ticks_ahead = step.duration // time.dt
         self.delta = step.delta / self.ticks_ahead
         self.target = current_position + step.delta
@@ -104,4 +112,8 @@ class Camera:
 
     def next_rotation(self):
         self.camera.rotation = self.rotation.next_tick(self.camera.rotation)
+
+
+
+
 
