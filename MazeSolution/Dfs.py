@@ -42,4 +42,6 @@ def dfs_sol(maze:BasicMaze,history:queue.Queue=None):
         if maze.is_valid_position(next_x, next_y) and not maze.is_wall(next_x, next_y):
             max_length = dfs(maze,next_x,next_y,maze.origin[0],maze.origin[1])
     maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
-    return max_length, history
+    if max_length == maze.x_lim*maze.y_lim+1:
+        max_length = -1
+    return max_length
