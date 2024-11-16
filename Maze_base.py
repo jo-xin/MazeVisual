@@ -2,14 +2,14 @@ import random
 
 # 第一种表达方式，墙壁和通道都占位
 class BasicMaze:
-    def __init__(self, x_lim, y_lim, origin=(0, 0), target=(None, None)):
+    def __init__(self, x_lim, y_lim, origin=(1, 1), target=(None, None)):
         # 迷宫大小
         self.x_lim: int = x_lim
         self.y_lim: int = y_lim
         # 起点、终点
         self.origin: tuple = origin
         if target[0] is None and target[1] is None:
-            self.target: tuple = (x_lim - 1, y_lim - 1)
+            self.target: tuple = (x_lim - 2, y_lim - 2)
         else:
             self.target: tuple = target
 
@@ -17,10 +17,10 @@ class BasicMaze:
         self.directions: list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
         # 格子情况，True表示有障碍物，False表示没有障碍物
-        self.single = [[True for _ in range(x_lim)] for _ in range(y_lim)]
+        self.single = [[True for _ in range(y_lim)] for _ in range(x_lim)]
 
         # 记录是否被访问过
-        self.visited = [[False for _ in range(x_lim)] for _ in range(y_lim)]
+        self.visited = [[False for _ in range(y_lim)] for _ in range(x_lim)]
 
     # 检查一个位置是否在迷宫内
     def is_valid_position(self, x, y):
@@ -66,8 +66,8 @@ class BasicMaze:
     
     # 打印迷宫
     def print_maze(self):
-        for i in range(self.y_lim):
-            for j in range(self.x_lim):
+        for i in range(self.x_lim):
+            for j in range(self.y_lim):
                 if self.single[i][j]:
                     print('#', end='')
                 else:

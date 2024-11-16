@@ -5,14 +5,14 @@ import random
 
 def generate(x,y) -> BasicMaze:
     bm = BasicMaze(x,y)
-    bm.single = [[False for _ in range(bm.x_lim)] for _ in range(bm.y_lim)]
-    bm.single[0] = [True for _ in range(bm.x_lim)]
-    bm.single[-1] = [True for _ in range(bm.x_lim)]
-    for i in range(bm.y_lim):
+    bm.single = [[False for _ in range(bm.y_lim)] for _ in range(bm.x_lim)]
+    bm.single[0] = [True for _ in range(bm.y_lim)]
+    bm.single[-1] = [True for _ in range(bm.y_lim)]
+    for i in range(bm.x_lim):
         bm.single[i][0] = True
         bm.single[i][-1] = True
     out = []
-    divide(bm, 1, 1, bm.y_lim - 1, bm.x_lim - 1,out)
+    divide(bm, 1, 1, bm.x_lim - 1, bm.y_lim - 1,out)
     return bm
 
 def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out: list):
@@ -29,7 +29,7 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
             to_disconnect.remove((p, q))
             out.append((p, q))
         for p, q in to_disconnect:
-            list_obj.single[q][p] = True
+            list_obj.single[p][q] = True
         divide(list_obj, left, top, right, y,out)
         divide(list_obj, left, y, right, bottom,out)
 
@@ -43,7 +43,7 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
             to_disconnect.remove((p, q))
             out.append((p, q))
         for p, q in to_disconnect:
-            list_obj.single[q][p] = True 
+            list_obj.single[p][q] = True 
         divide(list_obj, x, top, right, bottom,out)
         divide(list_obj, left, top, x, bottom,out)
 
@@ -75,7 +75,7 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
                 out.append((p, q))
         # 断开连接
         for p, q in to_disconnect:
-            list_obj.single[q][p] = True
+            list_obj.single[p][q] = True
 
         # 递归分割四个区域
         divide(list_obj, left, top, x, y,out)
@@ -84,5 +84,5 @@ def divide(list_obj: BasicMaze, left: int, top: int, right: int, bottom: int,out
         divide(list_obj, x, y, right, bottom,out)
 
 if __name__ == '__main__':
-    maze = generate(20,20)
+    maze = generate(12,10)
     maze.print_maze()

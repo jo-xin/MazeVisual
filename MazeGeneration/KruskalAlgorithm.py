@@ -72,5 +72,5 @@ def generate(x,y):
     return fi
 
 if __name__ == '__main__':
-    maze = generate(11,11)
+    maze = generate(15,11)
     maze.print_maze()

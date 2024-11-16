@@ -59,5 +59,5 @@ def generate(x, y):
     return fi
 
 if __name__ == '__main__':
-    maze = generate(10, 10)
+    maze = generate(19, 10)
     maze.print_maze()
