@@ -22,6 +22,8 @@ class BasicMaze:
         # 记录是否被访问过
         self.visited = [[False for _ in range(y_lim)] for _ in range(x_lim)]
 
+    def reset_visited(self):
+        self.visited = [[False for _ in range(self.y_lim)] for _ in range(self.x_lim)]
     # 检查一个位置是否在迷宫内
     def is_valid_position(self, x, y):
         return 0 <= x < self.x_lim and 0 <= y < self.y_lim

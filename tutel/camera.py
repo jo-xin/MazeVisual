@@ -97,11 +97,12 @@ class Stepper:
 
 
 class Camera:
-    def __init__(self):
+    def __init__(self, fov: float = 0):
         self.position = Stepper()
         self.rotation = Stepper()
 
         self.camera = camera
+        self.camera.fov += fov
 
     def update(self):
         self.next_position()
