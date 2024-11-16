@@ -7,11 +7,11 @@ class BasicMaze:
         self.x_lim: int = x_lim
         self.y_lim: int = y_lim
         # 起点、终点
-        self.origin: tuple = origin
+        self.origin: tuple[int, int] = origin
         if target[0] is None and target[1] is None:
-            self.target: tuple = (x_lim - 2, y_lim - 2)
+            self.target: tuple[int, int] = (x_lim - 2, y_lim - 2)
         else:
-            self.target: tuple = target
+            self.target: tuple[int, int] = target
 
         # 方向
         self.directions: list = [(0, 1), (1, 0), (0, -1), (-1, 0)]

@@ -2,7 +2,7 @@
 # @Project : MazeVisual
 # @Time    : 2024/11/12 18:51
 # @Author  : jo-xin
-# @File    : camera.py
+# @File    : cameras.py
 import queue
 import random
 from dataclasses import dataclass
@@ -75,7 +75,6 @@ class Stepper:
         """
         if self.steps.empty():
             self.walking = False
-            print(self.history)
         else:
             self.plan_next_step(current_position)
 
@@ -96,23 +95,32 @@ class Stepper:
         self.walking = True
 
 
-class Camera:
-    def __init__(self, fov: float = 0):
+class MovingObject:
+    def __init__(self, object: Entity):
         self.position = Stepper()
         self.rotation = Stepper()
 
-        self.camera = camera
-        self.camera.fov += fov
+        self.object = object
 
     def update(self):
         self.next_position()
         self.next_rotation()
 
     def next_position(self):
-        self.camera.position = self.position.next_tick(self.camera.position)
+        self.object.position = self.position.next_tick(self.object.position)
 
     def next_rotation(self):
-        self.camera.rotation = self.rotation.next_tick(self.camera.rotation)
+        self.object.rotation = self.rotation.next_tick(self.object.rotation)
+
+
+class Camera(MovingObject):
+    def __init__(self, fov: float = 0):
+        super().__init__(camera)
+        self.object.fov += fov
+
+
+
+
 
 
 
