@@ -9,7 +9,7 @@ def get_h(x:int, y:int, target:tuple):
     return abs(x - target[0]) + abs(y - target[1])
 
 class ACO:
-    def __init__(self, ant_num:int, maze:BasicMaze, max_round:int, decay_r:float,q:int=1,ini_C:int=1):
+    def __init__(self, ant_num:int, maze:BasicMaze, max_round:int, decay_r:float,history:queue.Queue=None, q:int=1,ini_C:int=1,alpha:int=1,beta:int=1):
         super().__init__()
         self.ant_num = ant_num
         self.maze = maze
@@ -20,6 +20,7 @@ class ACO:
         self.phe += ini_C
         self.Q = q
         self.decay_rate = decay_r
+        self.history = history
 
 
 # 更新信息素
@@ -54,28 +55,28 @@ class ACO:
 
 
 
-    def aco_maze(self,history:queue.Queue=None):
+    def aco_maze(self):
         best_path = None
         best_length = float('inf')
         for iteration in range(self.max_round):
             paths = []
             for ant in range(self.ant_num):
-                if history is not None:
-                    history.put((-1,-1))
+                if self.history is not None:
+                    self.history.put("A new ant.")
                 path = [self.maze.origin]
-                if history is not None:
-                    history.put(self.maze.origin)
+                if self.history is not None:
+                    self.history.put(self.maze.origin)
                 self.maze.visited[self.maze.origin[0]][self.maze.origin[1]]=True
                 while path[-1] != self.maze.target:
                     next_pos = self.choose_next(path[-1])
                     if next_pos is not None:
-                        if history is not None:
-                            history.put(next_pos)
+                        if self.history is not None:
+                            self.history.put(next_pos)
                     while next_pos is None:
                         path.pop()
                         next_pos = self.choose_next(path[-1])
-                        if history is not None:
-                            history.put(next_pos)
+                        if self.history is not None:
+                            self.history.put(next_pos)
                     path.append(next_pos)
                     # print(next_pos[0])
                     self.maze.visited[next_pos[0]][next_pos[1]]=True
@@ -87,6 +88,6 @@ class ACO:
                 paths.append(path)
                 self.maze.reset_visited()
             self.update_phe(paths)
-            if history is not None:
-                history.put("Update Pheromone")
+            if self.history is not None:
+                self.history.put("Update Pheromone.")
         return best_path, best_length
