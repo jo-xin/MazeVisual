@@ -22,7 +22,7 @@ def Bfs(maze:BasicMaze,que:queue.Queue,new_x:int,new_y:int,dist:int,history:queu
 def bfs_sol(maze:BasicMaze, history:queue.Queue=None):
     que = queue.Queue()
     origin = maze.origin
-    que.put((origin[0],origin[1],0))
+    que.put((origin[0],origin[1],1))
     if history is not None:
         history.put((origin[0],origin[1]))
     flag = False
@@ -32,7 +32,7 @@ def bfs_sol(maze:BasicMaze, history:queue.Queue=None):
         ans,flag=Bfs(maze,que,x,y,dist,history)
         if que.empty():
             break
-    maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
+    maze.reset_visited()
     if flag:
         return ans
     else:

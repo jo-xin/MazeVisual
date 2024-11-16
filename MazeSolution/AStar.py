@@ -24,7 +24,7 @@ def AStar_sol(maze:BasicMaze,history:queue.Queue=None):
     que = queue.PriorityQueue()
     x = maze.origin[0]
     y = maze.origin[1]
-    que.put((0+get_h(x,y,maze.target),x,y, 0))
+    que.put((1+get_h(x,y,maze.target),x,y, 1))
     if history is not None:
         history.put((x,y))
     flag = False
@@ -34,7 +34,7 @@ def AStar_sol(maze:BasicMaze,history:queue.Queue=None):
         ans, flag = AStar(maze, x, y, dist, que, history)
         if que.empty():
             break
-    maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
+    maze.reset_visited()
     if flag:
         return ans
     else:
