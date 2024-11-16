@@ -1,3 +1,5 @@
+import queue
+
 import numpy as np
 import random
 from Maze_base import BasicMaze
@@ -52,19 +54,28 @@ class ACO:
 
 
 
-    def aco_maze(self):
+    def aco_maze(self,history:queue.Queue=None):
         best_path = None
         best_length = float('inf')
         for iteration in range(self.max_round):
             paths = []
             for ant in range(self.ant_num):
+                if history is not None:
+                    history.put((-1,-1))
                 path = [self.maze.origin]
+                if history is not None:
+                    history.put(self.maze.origin)
                 self.maze.visited[self.maze.origin[0]][self.maze.origin[1]]=True
                 while path[-1] != self.maze.target:
                     next_pos = self.choose_next(path[-1])
+                    if next_pos is not None:
+                        if history is not None:
+                            history.put(next_pos)
                     while next_pos is None:
                         path.pop()
                         next_pos = self.choose_next(path[-1])
+                        if history is not None:
+                            history.put(next_pos)
                     path.append(next_pos)
                     # print(next_pos[0])
                     self.maze.visited[next_pos[0]][next_pos[1]]=True
@@ -76,5 +87,6 @@ class ACO:
                 paths.append(path)
                 self.maze.reset_visited()
             self.update_phe(paths)
-
+            if history is not None:
+                history.put("Update Pheromone")
         return best_path, best_length
