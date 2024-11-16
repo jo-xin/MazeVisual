@@ -1,5 +1,7 @@
+import sys
+sys.path.append('..')
+from Maze_base import BasicMaze
 import random
-import sys  # 导入sys模块
 
 
 def check_passage(maze, new_x, new_y, current_dx, current_dy):
@@ -35,3 +37,8 @@ def generate(maze):
     maze.visited[target[0]][target[1]] = True
     maze.single[target[0]][target[1]] = False
     maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
+
+if __name__ == '__main__':
+    maze = BasicMaze(10, 10)
+    generate(maze)
+    maze.print_maze()
