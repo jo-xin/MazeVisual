@@ -41,8 +41,8 @@ def generate(x,y):
         x = i // columns
         y = i % columns
         for neighbor in result.find_surround(x,y):
-            if i > neighbor[1]*columns + neighbor[0]:  # Avoid duplicate edges
-                edges.append((i, neighbor[1]*columns + neighbor[0]))
+            if i > neighbor[0]*columns + neighbor[1]:  # Avoid duplicate edges
+                edges.append((i, neighbor[0]*columns + neighbor[1]))
 
     random.shuffle(edges)
 
