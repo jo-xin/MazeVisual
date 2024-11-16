@@ -24,6 +24,8 @@ class TextureLib:
     orange_concrete = load_texture(name_to_rel("orange_concrete.png"))
     orange_glass = load_texture(name_to_rel("orange_stained_glass.png"))
     quartz_block_bottom = load_texture(name_to_rel("quartz_block_bottom.png"))
+    stone = load_texture(name_to_rel("stone.png"))
+    stone_bricks = load_texture(name_to_rel("stone_bricks.png"))
 
     sunset_sky = load_texture(name_to_rel("sunset.jpeg"))
 
@@ -41,36 +43,55 @@ class Block(Button):
         )
 
 
-class Builder:
-    def __init__(self, position: tuple[int, int]):
-        self.build(position)
 
-    def build(self, position: tuple[int, int]):
-        raise NotImplementedError
+class ZaWarudo:
+    BLOCK_GROUND = TextureLib.orange_glass
+    BLOCK_WALL = TextureLib.stone_bricks
+    BLOCK_KABE = TextureLib.stone
+    BLOCK_BEGIN = TextureLib.line_concrete
+    BLOCK_END = TextureLib.light_blue_concrete
 
+    def __init__(self, x_lim, z_lim, wall_height=1, kabe_height=2):
+        self.wall_height = wall_height
+        self.kabe_height = kabe_height
+        self.world: list[list[list[None | Block]]] = [[[None for _ in range(z_lim)] for _ in range(wall_height+1)] for _ in range(x_lim)]
 
-class GroundBuilder(Builder):
-    TEXTURE = TextureLib.orange_glass
-    def __init__(self, position: tuple[int, int]):
-        super().__init__(position)
+        self.initialize_kabe(x_lim, z_lim)
 
-    def build(self, position: tuple[int, int]):
-        Block(position=(position[0], 0, position[1]), texture=self.TEXTURE)
+    def initialize_kabe(self, x_lim, z_lim):
+        for x in (-1, x_lim):
+            for z in range(-1, z_lim + 1):
+                self.build_kabe((x, z))
 
+        for x in range(0, x_lim):
+            for z in (-1, z_lim):
+                self.build_kabe((x, z))
 
+    def set_block(self, position: tuple[int, int, int], target: Block):
+        x, y, z = position
+        if (block := self.world[x][y][z]) is not None:
+            block.enabled = False
+        self.world[x][y][z] = target
 
+    def build_ground(self, position: tuple[int, int]):
+        self.set_block((position[0], 0, position[1]), Block(position=(position[0], 0, position[1]), texture=self.BLOCK_GROUND))
 
-class WallBuilder(Builder):
-    TEXTURE = TextureLib.orange_concrete
+    def build_wall(self, position: tuple[int, int]):
+        self.build_ground(position)
+        for y in range(1, self.wall_height + 1):
+            self.set_block((position[0], y, position[1]), Block(position=(position[0], y, position[1]), texture=self.BLOCK_WALL))
 
-    def __init__(self, position: tuple[int, int]):
-        super().__init__(position)
+    def build_kabe(self, position: tuple[int, int]):
+        Block(position=(position[0], 0, position[1]), texture=self.BLOCK_GROUND)
+        for y in range(1, self.kabe_height + 1):
+            Block(position=(position[0], y, position[1]), texture=self.BLOCK_KABE)
 
-    def build(self, position: tuple[int, int]):
-        GroundBuilder(position)
+    def build_beginning(self, position: tuple[int, int]):
+        self.set_block((position[0], 0, position[1]),
+                       Block(position=(position[0], 0, position[1]), texture=self.BLOCK_BEGIN))
 
-        Block(position=(position[0], 1, position[1]), texture=self.TEXTURE)
-
-
+    def build_ending(self, position: tuple[int, int]):
+        self.set_block((position[0], 0, position[1]),
+                       Block(position=(position[0], 0, position[1]), texture=self.BLOCK_END))
 
 

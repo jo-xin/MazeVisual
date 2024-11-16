@@ -7,30 +7,90 @@ import queue
 
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
+from dataclasses import dataclass
 
-from tutel import blocks, camera, walker
+from tutel import blocks, camera, walker, water
 
-BLOCKS = (blocks.TextureLib.line_concrete, blocks.TextureLib.orange_glass, blocks.TextureLib.light_blue_concrete)
 
-bb = [[0 for _ in range(40)] for _ in range(40)]
+@dataclass(frozen=True)
+class MaZe:
+    x_lim: int
+    z_lim: int
+    isWall: list[list[bool]]
+    begging: tuple[int, int]
+    ending: tuple[int, int]
 
-# Set up the grid of blocks
-height = 1
-for y in range(0, height):
-    for z in range(-15, 16):
-        for x in range(-15, 16):
-            bb[x + 15][z + 15] = blocks.Block(position=(x, y, z), texture=BLOCKS[(x + z) % 3])
 
-for y in range(0, height):
-    for z in range(-1, 2):
-        for x in range(-1, 2):
-            bb[x + 15][z + 15].enabled = False
-            blocks.Block(position=(x, y, z), texture=blocks.TextureLib.quartz_block_bottom)
+class MazeArtOnline:
+    def __init__(self, maze: MaZe, wall_height: int = 2, kabe_height: int = 3):
+        self.the_world = blocks.ZaWarudo(maze.x_lim, maze.z_lim, wall_height, kabe_height)
+        Sky()
+
+        self.initialize_maze(maze)
+
+
+    def initialize_maze(self, maze: MaZe):
+        for x in range(maze.x_lim):
+            for z in range(maze.z_lim):
+                if maze.isWall[x][z]:
+                    self.the_world.build_wall((x, z))
+                else:
+                    self.the_world.build_ground((x, z))
+
+        self.the_world.build_beginning(maze.begging)
+        self.the_world.build_ending(maze.ending)
+
+
+
+class UnlimitedMazeWorks:
+    m_walker = None
+    def __init__(self):
+        pass
+
+    @classmethod
+    def update_void(cls):
+        return
+
+    @classmethod
+    def update_walk(cls):
+        cls.m_walker.walk()
+
+    update = update_void
+
+    @classmethod
+    def UMW_camera_walk(cls, path: queue.Queue):
+        UnlimitedMazeWorks.m_walker = walker.AnWalker(camera.Camera(65), path, 1.5)
+        UnlimitedMazeWorks.m_walker.set_config(0.4, 0.2, 0.1)
+        UnlimitedMazeWorks.m_walker.ghostPath()
+
+        UnlimitedMazeWorks.update = UnlimitedMazeWorks.update_walk
+
+
+application = blocks.application
+
+import Maze_base
+import MazeGeneration.PrimAlgorithm as pa
+
+maze = pa.generate(7, 7)
+mm = MaZe(7, 7, maze.single, maze.origin, maze.target)
+www = MazeArtOnline(mm)
+
+import MazeSolution.Dfs as ds
+
+history = queue.Queue()
+ds.dfs_sol(maze, history)
+
+# print(history.queue)
+# print(mm.ending)
+history = water.SPELLCARD_SupremeGoodIsLikeWater(history, True, True)
+# print(history.queue)
+
+UnlimitedMazeWorks.UMW_camera_walk(history)
+
 
 
 # Add sky to the scene
-sky = Sky()
-player = FirstPersonController()
+# player = FirstPersonController()
 
 
 """
@@ -40,22 +100,28 @@ Here is An WAlker
 # q = queue.Queue()
 # q.put((1, 1))
 # q.put((1, 2))
-# # q.put((1, 3))
-# # q.put((2, 3))
-# # q.put((2, 4))
-# # q.put((2, 5))
-# # q.put((1, 5))
-# # q.put((1, 4))
-# # q.put((1, 3))
-# # q.put((1, 2))
-#
+# q.put((1, 3))
+# q.put((2, 3))
+# q.put((2, 4))
+# q.put((2, 5))
+# q.put((1, 5))
+# q.put((1, 4))
+# q.put((1, 3))
+# q.put((1, 2))
+
 # mm_walker = walker.AnWalker(camera.Camera(), q)
 # # mm_walker.set_config()
 # mm_walker.ghostPath()
+
+# mmm = UnlimitedMazeWorks()
+# mmm.UMW_camera_walk(q)
+
+
+
 #
 #
-# def update():
-#     mm_walker.walk()
+def update():
+    UnlimitedMazeWorks.update()
 
 
 #
@@ -100,5 +166,5 @@ Here is An WAlker
 # # Start the movement
 # set_next_target()
 
+application.run()
 
-blocks.application.run()
