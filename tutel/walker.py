@@ -10,7 +10,7 @@ from tutel import camera
 
 
 class AnWalker:
-    def __init__(self, cam: camera.Camera, path: queue.Queue[tuple[int, int]]):
+    def __init__(self, cam: camera.Camera, path: queue.Queue[tuple[int, int]], camera_height=1):
         self.current_position: Vec3 = Vec3(0, 0, 0)
         self.current_rotation: Vec3 = Vec3(0, 0, 0)
 
@@ -19,13 +19,14 @@ class AnWalker:
         self.revolve_duration = 0.0 * self.block_duration + self.rest_duration
         self.WAKING_DURATION = 1
 
+        self.camera_height = camera_height
         self.camera: camera.Camera = cam
 
         self.path: queue.Queue[Vec3] = queue.Queue()
         self.initilizeCamera(path.get())
         while not path.empty():
             x, z = path.get()
-            self.path.put(Vec3(x, 1, z))
+            self.path.put(Vec3(x, self.camera_height, z))
 
     def set_config(self, block=-1, rest=-1, revolve=-1):
         """
@@ -48,9 +49,11 @@ class AnWalker:
     def shakeIt(self):
         self.camera.position.append(camera.Step(duration=self.WAKING_DURATION))
         self.camera.rotation.append(camera.Step(duration=self.WAKING_DURATION))
+        for i in range(10):
+            self.camera.position.append(camera.Step(duration=self.WAKING_DURATION / 10))
+            self.camera.rotation.append(camera.Step(duration=self.WAKING_DURATION / 10))
 
-        self.camera.position.append(camera.Step(duration=self.WAKING_DURATION + self.revolve_duration))
-        self.camera.rotation.append(camera.Step(duration=self.WAKING_DURATION))
+        self.camera.position.append(camera.Step(duration=self.revolve_duration))
 
     def shake(self):
         target = self.path.get()
@@ -69,7 +72,7 @@ class AnWalker:
         self.camera.rotation.append(camera.Step(duration=self.WAKING_DURATION))
 
     def initilizeCamera(self, start: tuple[int, int]):
-        self.current_position = Vec3(start[0], 1, start[1])
+        self.current_position = Vec3(start[0], self.camera_height, start[1])
         self.camera.camera.position = self.current_position
 
         self.current_rotation = Vec3(90, 0, 0)
