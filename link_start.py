@@ -28,7 +28,7 @@ class Glue:
 
     @staticmethod
     def nie(maze: Maze_base.BasicMaze) -> Queue:
-        raise NotImplementedError
+        raise NotImplementedError("Please contact administrator, or developer.")
 
     @staticmethod
     def disenchant(maze: Maze_base.BasicMaze) -> tutel.New_World.MaZe:
@@ -44,8 +44,8 @@ class GeneratingMethod:
 
 class SolvingMethod:
     ACO: Callable[[Maze_base.BasicMaze], Queue] = Glue.nie
-    AStar: Callable[[Maze_base.BasicMaze], Queue] = lambda maze: Glue.lit(maze, MazeSolution.AStar.AStar_sol)
-    Bfs: Callable[[Maze_base.BasicMaze], Queue] = lambda maze: Glue.lit(maze, MazeSolution.Bfs.bfs_sol)
+    AStar: Callable[[Maze_base.BasicMaze], Queue] = Glue.nie if True else lambda maze: Glue.lit(maze, MazeSolution.AStar.AStar_sol)
+    Bfs: Callable[[Maze_base.BasicMaze], Queue] = Glue.nie if True else lambda maze: Glue.lit(maze, MazeSolution.Bfs.bfs_sol)
     Dfs: Callable[[Maze_base.BasicMaze], Queue] = lambda maze: Glue.lit(maze, MazeSolution.Dfs.dfs_sol)
 
 
@@ -53,10 +53,14 @@ class Sequel:
     def __init__(self, maze: Maze_base.BasicMaze):
         self.__ruinswald = maze
         self.__oldwald = Glue.disenchant(maze)
+        self.__path: Queue = Queue()
         tutel.New_World.MazeArtOnline(self.__oldwald)
 
     def __run(self):
         tutel.New_World.application.run()
+
+    def solve(self):
+        pass
 
     def sktCoat(self, path: Queue):
         path = tutel.water.SPELLCARD_SupremeGoodIsLikeWater(path, True, True)
@@ -78,7 +82,7 @@ def update():
 
 if __name__ == '__main__':
     maze = GeneratingMethod.PrimAlgorithm(10, 10)
-    path = SolvingMethod.Dfs(maze)
-
+    path = SolvingMethod.Bfs(maze)
+    print(path.queue)
     sequel = Sequel(maze)
     sequel.sktCoat(path)
