@@ -74,11 +74,10 @@ class ACO:
                             self.history.put(next_pos)
                     while next_pos is None:
                         path.pop()
-                        next_pos = self.choose_next(path[-1])
                         if self.history is not None:
-                            self.history.put(next_pos)
+                            self.history.put(path[-1])
+                        next_pos = self.choose_next(path[-1])
                     path.append(next_pos)
-                    # print(next_pos[0])
                     self.maze.visited[next_pos[0]][next_pos[1]]=True
                     if next_pos == self.maze.target:
                         break

@@ -11,6 +11,7 @@ def AStar(maze:BasicMaze, x:int,y:int,dist:int,que:queue.PriorityQueue,history:q
         next_x = x+dx
         next_y = y+dy
         if maze.is_valid_position(next_x,next_y):
+            # print(next_x,next_y)
             if not maze.is_visited(next_x,next_y) and not maze.is_wall(next_x,next_y):
                 maze.visited[next_x][next_y]=True
                 # add history
