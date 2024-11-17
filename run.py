@@ -139,6 +139,9 @@ class SecondWindow(QWidget):
             case 'ReversiveDivision':
                 maze = link_start.GeneratingMethod.RecursiveDivision(row,column)
         link_start.show_maze(maze)
+        sequel = link_start.Sequel(maze)
+        sequel.solve(astar=True)
+        sequel.sktCoat(False)
 
     def button_clicked_2(self):
         # 获取 ComboBox 的文本
@@ -199,9 +202,20 @@ class ThirdWindow(QWidget):
         painter.setOpacity(0.8)  # 设置透明度为50%
         painter.fillRect(self.verticalLayout.geometry(), QColor(255, 255, 255))  # 填充半透明背景
 
-    
+    def button_clicked(self):
+        # 获取 LineEdit 的文本
+        method = self.comboBox.currentText()
+        judeg = True if self.comboBox_2.currentText() == 'True' else False
 
-
+        match method:
+            case 'Astar':
+                pass
+            case 'DFS':
+                pass
+            case 'BFS':
+                pass
+            case 'ACO':
+                pass
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

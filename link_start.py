@@ -16,7 +16,7 @@ class Glue:
     @staticmethod
     def dfs(x_lim: int, y_lim: int) -> Maze_base.BasicMaze:
         maze: Maze_base.BasicMaze = Maze_base.BasicMaze(x_lim, y_lim)
-        MazeGeneration.Dfs.generate(maze)
+        MazeGeneration.Dfs.generate(x_lim,y_lim)
         return maze
 
     @staticmethod
