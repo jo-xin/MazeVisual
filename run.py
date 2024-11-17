@@ -1,16 +1,16 @@
 import sys
-sys.path.append('..')
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel,QVBoxLayout,QSpacerItem,QSizePolicy
 from PyQt5 import uic
 from PyQt5.QtGui import QFont, QPainter, QColor, QPixmap
 from PyQt5.QtCore import Qt
 import link_start
 
+
 class FirstWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.background_pixmap = QPixmap('bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
 
     def paintEvent(self, event=None):
         painter = QPainter(self)
@@ -18,7 +18,7 @@ class FirstWindow(QWidget):
         painter.drawPixmap(0, 0, self.width(), self.height(), self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
     def initUI(self):
-        uic.loadUi('First.ui', self)
+        uic.loadUi('mainwindow/First.ui', self)
         self.setFixedSize(1200, 800)  # 设置窗口大小
 
         def custom_paint_event(self, event):
@@ -80,10 +80,10 @@ class SecondWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.background_pixmap = QPixmap('bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
 
     def initUI(self):
-        uic.loadUi('Second.ui', self)
+        uic.loadUi('mainwindow/Second.ui', self)
 
         self.setFixedSize(1200, 800)  # 设置窗口大小
 
@@ -167,10 +167,10 @@ class ThirdWindow(QWidget):
     def __init__(self, message):
         super().__init__()
         self.initUI(message)
-        self.background_pixmap = QPixmap('bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
 
     def initUI(self, message):
-        uic.loadUi('Third.ui', self)
+        uic.loadUi('mainwindow/Third.ui', self)
 
         self.setFixedSize(1200, 800)  # 设置窗口大小
 
