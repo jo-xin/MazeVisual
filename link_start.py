@@ -12,7 +12,6 @@ import MazeSolution
 import tutel
 import Maze_base
 
-
 class Glue:
     @staticmethod
     def dfs(x_lim: int, y_lim: int) -> Maze_base.BasicMaze:
@@ -136,5 +135,13 @@ def test_sky02():
     sequel.sktCoat(False)
 
 
+def show_maze(maze: Maze_base.BasicMaze):
+    global sequel
+
+    sequel = Sequel(maze)
+    sequel._Sequel__path.put(maze.origin)
+    sequel.sktCoat(True)
+
+
 if __name__ == '__main__':
-    test_sky02()
+    show_maze(GeneratingMethod.KruskalAlgorithm(10, 10))
