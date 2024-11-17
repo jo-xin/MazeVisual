@@ -30,7 +30,7 @@ def bfs_sol(maze:BasicMaze, history:queue.Queue=None):
     while not flag:
         x,y,dist=que.get()
         ans,flag=Bfs(maze,que,x,y,dist,history)
-        if que.empty():
+        if flag or que.empty():
             break
     maze.reset_visited()
     if flag:

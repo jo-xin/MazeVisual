@@ -33,7 +33,7 @@ def AStar_sol(maze:BasicMaze,history:queue.Queue=None):
     while not flag:
         _, x, y, dist = que.get()
         ans, flag = AStar(maze, x, y, dist, que, history)
-        if que.empty():
+        if flag or que.empty():
             break
     maze.reset_visited()
     if flag:
