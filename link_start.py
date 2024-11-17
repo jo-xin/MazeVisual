@@ -119,14 +119,22 @@ def test_minecraft():
     sequel.minecraft()
 
 
-def test_sky():
+def test_sky01():
     global sequel
     maze = GeneratingMethod.PrimAlgorithm(15, 15)
 
     sequel = Sequel(maze)
     sequel.solve(aco=True)
+    sequel.sktCoat(True)
+
+def test_sky02():
+    global sequel
+    maze = GeneratingMethod.PrimAlgorithm(15, 15)
+
+    sequel = Sequel(maze)
+    sequel.solve(astar=True)
     sequel.sktCoat(False)
 
 
 if __name__ == '__main__':
-    test_sky()
+    test_sky02()
