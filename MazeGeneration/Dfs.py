@@ -1,8 +1,11 @@
 import sys
+
+from MazeSolution.Bfs import bfs_sol
+
 sys.path.append('..')
 from Maze_base import BasicMaze
 import random
-
+from MazeSolution import Dfs
 
 def check_passage(maze, new_x, new_y, current_dx, current_dy):
     for dx, dy in maze.directions:
@@ -36,7 +39,15 @@ def generate(maze):
     maze.single[origin[0]][origin[1]]=False
     maze.visited[target[0]][target[1]] = True
     maze.single[target[0]][target[1]] = False
-    maze.visited = [[False for _ in range(maze.x_lim)] for _ in range(maze.y_lim)]
+    maze.reset_visited()
+    le = bfs_sol(maze)
+    while le == -1:
+        dfs(maze, origin[0], origin[1])
+        maze.single[origin[0]][origin[1]] = False
+        maze.visited[target[0]][target[1]] = True
+        maze.single[target[0]][target[1]] = False
+        maze.reset_visited()
+        le = bfs_sol(maze)
 
 if __name__ == '__main__':
     maze = BasicMaze(10, 10)
