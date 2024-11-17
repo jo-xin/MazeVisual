@@ -5,7 +5,8 @@ from Maze_base import BasicMaze
 def dfs(maze:BasicMaze,new_x:int,new_y:int,last_x:int,last_y:int,history:queue.Queue=None):
     max_length = maze.x_lim*maze.y_lim
     if new_x == maze.target[0] and new_y == maze.target[1]:
-        history.put((new_x, new_y))
+        if history is not None:
+            history.put((new_x, new_y))
         # print("find target")
         # print(new_x,new_y)
         if history is not None:
@@ -42,7 +43,7 @@ def dfs_sol(maze:BasicMaze,history:queue.Queue=None):
         next_y = dy + maze.origin[1]
         if maze.is_valid_position(next_x, next_y) and not maze.is_wall(next_x, next_y):
             max_length = dfs(maze,next_x,next_y,maze.origin[0],maze.origin[1], history)
-    maze.visited = maze.reset_visited()
+    maze.reset_visited()
     if max_length == maze.x_lim*maze.y_lim+1:
         max_length = -1
     return max_length+1
