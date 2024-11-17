@@ -39,14 +39,14 @@ import random
 #     maze.visited[target[0]][target[1]] = True
 #     maze.single[target[0]][target[1]] = False
 #     maze.reset_visited()
-    le = bfs_sol(maze)
-    while le == -1:
-        dfs(maze, origin[0], origin[1])
-        maze.single[origin[0]][origin[1]] = False
-        maze.visited[target[0]][target[1]] = True
-        maze.single[target[0]][target[1]] = False
-        maze.reset_visited()
-        le = bfs_sol(maze)
+    # le = bfs_sol(maze)
+    # while le == -1:
+    #     dfs(maze, origin[0], origin[1])
+    #     maze.single[origin[0]][origin[1]] = False
+    #     maze.visited[target[0]][target[1]] = True
+    #     maze.single[target[0]][target[1]] = False
+    #     maze.reset_visited()
+    #     le = bfs_sol(maze)
 
 def generate(x,y):
     rows = x // 2
