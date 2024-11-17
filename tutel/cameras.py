@@ -22,7 +22,7 @@ class Step:
 
 
 class Stepper:
-    def __init__(self):
+    def __init__(self, smooth_criminal):
         self.steps = queue.Queue()  # a queue for all following steps
 
         self.delta: Vec3 = Vec3(0, 0, 0)  # displacement for each tick
@@ -32,6 +32,8 @@ class Stepper:
 
         self.ima = 0
         self.history = []
+
+        self.smooth_criminal = smooth_criminal
 
     def append(self, step: Step):
         """
@@ -60,10 +62,11 @@ class Stepper:
 
         if self.ticks_ahead > 0:
             self.ticks_ahead -= 1
-            return current_position + self.delta
+            return current_position + (self.delta if self.smooth_criminal else Vec3(0, 0, 0))
         else:
             # When planned step is finished, setting to target to avoid micro error
             target = self.target
+            current_position = target
             self.finish_step(current_position)
             return target
 
@@ -96,9 +99,9 @@ class Stepper:
 
 
 class MovingObject:
-    def __init__(self, object: Entity):
-        self.position = Stepper()
-        self.rotation = Stepper()
+    def __init__(self, object: Entity, smooth_criminal):
+        self.position = Stepper(smooth_criminal)
+        self.rotation = Stepper(smooth_criminal)
 
         self.object = object
 

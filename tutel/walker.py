@@ -20,7 +20,7 @@ class AnWalker:
         self.WAKING_DURATION = 1
 
         self.height = height
-        self.object: camera.MovingObject = obj
+        self.object: cameras.MovingObject = obj
 
         self.path: queue.Queue[Vec3] = queue.Queue()
         self.initilizeObject(path.get())
@@ -35,7 +35,7 @@ class AnWalker:
         block = self.block_duration if block == -1 else block
         rest = self.rest_duration if rest == -1 else rest
         revolve = self.revolve_duration if revolve == -1 else revolve
-        if min(block, revolve) < 0.05:
+        if min(block, revolve) < 0.02:
             raise ValueError("duration set in set_config() is too short!")
         self.block_duration = block
         self.rest_duration = rest

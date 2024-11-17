@@ -24,6 +24,7 @@ class MaZe:
 class MazeArtOnline:
     def __init__(self, maze: MaZe, wall_height: int = 2, kabe_height: int = 3):
         self.the_world = blocks.ZaWarudo(maze.x_lim, maze.z_lim, wall_height, kabe_height)
+
         Sky()
 
         self.initialize_maze(maze)
@@ -41,7 +42,7 @@ class MazeArtOnline:
 
 
 class UnlimitedMazeWorks:
-    m_walker = None
+    m_walker: walker.AnWalker = None
 
     def __init__(self):
         pass
@@ -59,7 +60,7 @@ class UnlimitedMazeWorks:
     @classmethod
     def UMW_camera_walk(cls, path: queue.Queue):
         UnlimitedMazeWorks.m_walker = walker.AnWalker(cameras.Camera(65), path, 1.5)
-        UnlimitedMazeWorks.m_walker.set_config(0.4, 0.2, 0.1)
+        UnlimitedMazeWorks.m_walker.set_config(0.4, 0.1, 0.05)
         UnlimitedMazeWorks.m_walker.ghostPath()
 
         UnlimitedMazeWorks.update = UnlimitedMazeWorks.update_walk
@@ -73,9 +74,9 @@ class UnlimitedMazeWorks:
         camera.rotation = Vec3(90, 0, 0)
 
     @classmethod
-    def UMW_ball_walk(cls, path: queue.Queue):
+    def UMW_ball_walk(cls, path: queue.Queue, smooth_criminal=True):
         UnlimitedMazeWorks.m_walker = walker.AnWalker(
-            cameras.MovingObject(Entity(model='sphere', color=color.red, scale=0.7)), path)
+            cameras.MovingObject(Entity(model='sphere', color=color.red, scale=0.7), smooth_criminal), path)
         UnlimitedMazeWorks.m_walker.set_config(0.1, 0, 0.05)
         UnlimitedMazeWorks.m_walker.ghostPath()
 
