@@ -87,29 +87,4 @@ class UnlimitedMazeWorks:
 
 application = blocks.application
 
-import Maze_base
-# import MazeGeneration.PrimAlgorithm as pa
-#
-# maze = pa.generate(24, 12)
-# mm = MaZe(24, 12, maze.single, maze.origin, maze.target)
-# www = MazeArtOnline(mm)
-#
-# import MazeSolution.Dfs as ds
-#
-# history = queue.Queue()
-# ds.dfs_sol(maze, history)
-#
-# # print(history.queue)
-# # print(mm.ending)
-# history = water.SPELLCARD_SupremeGoodIsLikeWater(history, True, True)
-# # print(history.queue)
-#
-# UnlimitedMazeWorks.UMW_camera_static(mm)
-# UnlimitedMazeWorks.UMW_ball_walk(history)
-
-
-# UnlimitedMazeWorks.UMW_camera_walk(history)
-
-
-# player = FirstPersonController()
 

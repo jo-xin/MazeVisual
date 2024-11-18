@@ -233,8 +233,11 @@ def update():
     sequel._Sequel__world.the_world.visit(link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
 
 
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     first_window = FirstWindow()
     first_window.show()
     sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()
