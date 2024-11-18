@@ -82,6 +82,11 @@ class UnlimitedMazeWorks:
 
         UnlimitedMazeWorks.update = UnlimitedMazeWorks.update_walk
 
+    @classmethod
+    def UMW_player(cls, origin: tuple[int, int]):
+        player = FirstPersonController()
+        player.position = (origin[0], 1, origin[1])
+
 
 
 

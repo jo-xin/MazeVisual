@@ -23,13 +23,13 @@ class Glue:
 
     @staticmethod
     def aco(maze: Maze_base.BasicMaze) -> Queue:
-        ant_num = 10
+        ant_num = 2
         max_round = 5
         decay_r = 0.3
         path = Queue()
         aco = MazeSolution.ACO.ACO(ant_num, maze, max_round, decay_r, path)
         gb, _ = aco.aco_maze()
-        path = Queue()
+        # path = Queue()
         for n in gb:
             path.put(n)
         return path
@@ -103,11 +103,17 @@ class Sequel:
 
         self.__run()
 
+    def player(self):
+        tutel.New_World.UnlimitedMazeWorks.UMW_player(self.__ruinswald.origin)
+
+        self.__run()
+
 sequel: Sequel | None = None
 
 def update():
     tutel.New_World.UnlimitedMazeWorks.update()
-    sequel._Sequel__world.the_world.visit(tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+    if tutel.New_World.UnlimitedMazeWorks.m_walker is not None:
+        sequel._Sequel__world.the_world.visit(tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
 
 
 
@@ -125,7 +131,7 @@ def test_sky01():
     maze = GeneratingMethod.PrimAlgorithm(15, 15)
 
     sequel = Sequel(maze)
-    sequel.solve(bfs=True)
+    sequel.solve(aco=True)
     sequel.sktCoat(False)
 
 def test_sky02():
@@ -135,6 +141,12 @@ def test_sky02():
     sequel = Sequel(maze)
     sequel.solve(astar=True)
     sequel.sktCoat(False)
+
+def test_player():
+    global sequel
+
+    sequel = Sequel(GeneratingMethod.PrimAlgorithm(10, 10))
+    sequel.player()
 
 
 def show_maze(maze: Maze_base.BasicMaze):
@@ -146,5 +158,6 @@ def show_maze(maze: Maze_base.BasicMaze):
 
 
 if __name__ == '__main__':
-    test_sky02()
+    test_player()
+
 

@@ -62,7 +62,8 @@ class ACO:
             paths = []
             for ant in range(self.ant_num):
                 if self.history is not None:
-                    self.history.put("A new ant.")
+                    pass
+                    # self.history.put("A new ant.")
                 path = [self.maze.origin]
                 if self.history is not None:
                     self.history.put(self.maze.origin)
@@ -88,5 +89,6 @@ class ACO:
                 self.maze.reset_visited()
             self.update_phe(paths)
             if self.history is not None:
-                self.history.put("Update Pheromone.")
+                pass
+                # self.history.put("Update Pheromone.")
         return best_path, best_length
