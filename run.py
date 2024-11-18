@@ -4,6 +4,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import QFont, QPainter, QColor, QPixmap
 from PyQt5.QtCore import Qt
 import link_start
+sequel = link_start.sequel
 
 
 class FirstWindow(QWidget):
@@ -208,28 +209,28 @@ class ThirdWindow(QWidget):
         # 获取 LineEdit 的文本
         print(type(message))
         method = self.comboBox.currentText()
-        judeg = True if self.comboBox_2.currentText() == 'True' else False
+        judge = True if self.comboBox_2.currentText() == 'True' else False
 
+        global sequel
+        sequel = link_start.Sequel(message)
         match method:
             case 'Astar':
-                global sequel
-                sequel = link_start.Sequel(message)
                 sequel.solve(astar=True)
-                sequel.sktCoat(False)
+                sequel.sktCoat(judge)
             case 'DFS':
-                pass
+                sequel.solve(dfs=True)
+                sequel.minecraft()
             case 'BFS':
-                pass
+                sequel.solve(bfs=True)
+                sequel.sktCoat(judge)
             case 'ACO':
-                pass
-
+                sequel.solve(aco=True)
+                sequel.minecraft()
 
 
 def update():
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
-    if link_start.sequel is None:
-        return 
-    link_start.sequel._Sequel__world.the_world.visit(link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+    sequel._Sequel__world.the_world.visit(link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
 
 
 if __name__ == '__main__':

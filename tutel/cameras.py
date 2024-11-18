@@ -118,7 +118,7 @@ class MovingObject:
 
 class Camera(MovingObject):
     def __init__(self, fov: float = 0):
-        super().__init__(camera)
+        super().__init__(camera, True)
         self.object.fov += fov
 
 
