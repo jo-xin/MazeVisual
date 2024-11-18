@@ -9,7 +9,7 @@ from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 from dataclasses import dataclass
 
-from tutel import blocks, cameras, walker, water
+from tutel import blocks, cameras, walker
 
 
 @dataclass(frozen=True)

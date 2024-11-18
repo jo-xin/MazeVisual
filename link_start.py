@@ -22,14 +22,15 @@ class Glue:
         return maze
 
     @staticmethod
-    def aco(maze: Maze_base.BasicMaze) -> Queue:
+    def aco(maze: Maze_base.BasicMaze, gb_only=False) -> Queue:
         ant_num = 2
         max_round = 5
         decay_r = 0.3
         path = Queue()
         aco = MazeSolution.ACO.ACO(ant_num, maze, max_round, decay_r, path)
         gb, _ = aco.aco_maze()
-        # path = Queue()
+        if gb_only:
+            path = Queue()
         for n in gb:
             path.put(n)
         return path
@@ -89,6 +90,12 @@ class Sequel:
     def sktCoat(self, smooth_criminal=True):
         if self.__path.empty():
             raise ValueError("The path is empty. Try SOLVEing the maze")
+
+        gp = Glue.aco(self.__ruinswald, True)
+
+        self.__path.put((-100, -100))
+        while not gp.empty():
+            self.__path.put(gp.get())
 
         tutel.New_World.UnlimitedMazeWorks.UMW_camera_static(self.__oldwald)
         tutel.New_World.UnlimitedMazeWorks.UMW_ball_walk(self.__path, smooth_criminal)
@@ -158,6 +165,6 @@ def show_maze(maze: Maze_base.BasicMaze):
 
 
 if __name__ == '__main__':
-    test_player()
+    test_sky02()
 
 

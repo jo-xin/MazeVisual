@@ -51,11 +51,13 @@ class ZaWarudo:
     BLOCK_BEGIN = TextureLib.line_concrete
     BLOCK_END = TextureLib.light_blue_concrete
     BLOCK_VISITED = TextureLib.orange_concrete
+    BLOCK_FINISHED = TextureLib.quartz_block_bottom
 
     def __init__(self, x_lim, z_lim, wall_height=1, kabe_height=2):
         self.wall_height = wall_height
         self.kabe_height = kabe_height
         self.world: list[list[list[None | Block]]] = [[[None for _ in range(z_lim)] for _ in range(wall_height+1)] for _ in range(x_lim)]
+        self.gp2 = False
 
         self.initialize_kabe(x_lim, z_lim)
 
@@ -77,9 +79,15 @@ class ZaWarudo:
     def visit(self, position: Vec3):
         x = round(position.x)
         z = round(position.z)
+        if x + z < 0:
+            self.gp2 = True
+            return
         if (block := self.world[x][0][z]) is not None:
-            if block.texture == self.BLOCK_GROUND:
-                self.set_block((x, 0, z), Block(position=(x, 0, z), texture=self.BLOCK_VISITED))
+            if not self.gp2:
+                if block.texture == self.BLOCK_GROUND:
+                    self.set_block((x, 0, z), Block(position=(x, 0, z), texture=self.BLOCK_VISITED))
+            else:
+                self.set_block((x, 0, z), Block(position=(x, 0, z), texture=self.BLOCK_FINISHED))
 
     def build_ground(self, position: tuple[int, int]):
         self.set_block((position[0], 0, position[1]), Block(position=(position[0], 0, position[1]), texture=self.BLOCK_GROUND))
