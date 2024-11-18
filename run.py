@@ -177,6 +177,8 @@ class ThirdWindow(QWidget):
 
         self.setFixedSize(1200, 800)  # 设置窗口大小
 
+        self.pushButton.clicked.connect(lambda: self.button_clicked(message))
+
         self.label.setAlignment(Qt.AlignCenter)  # 设置文本居中
         self.label.setFixedSize(700, 200)  # 设置按钮大小
         # 设置标签的字体大小
@@ -202,20 +204,33 @@ class ThirdWindow(QWidget):
         painter.setOpacity(0.8)  # 设置透明度为50%
         painter.fillRect(self.verticalLayout.geometry(), QColor(255, 255, 255))  # 填充半透明背景
 
-    def button_clicked(self):
+    def button_clicked(self,message):
         # 获取 LineEdit 的文本
+        print(type(message))
         method = self.comboBox.currentText()
         judeg = True if self.comboBox_2.currentText() == 'True' else False
 
         match method:
             case 'Astar':
-                pass
+                global sequel
+                sequel = link_start.Sequel(message)
+                sequel.solve(astar=True)
+                sequel.sktCoat(False)
             case 'DFS':
                 pass
             case 'BFS':
                 pass
             case 'ACO':
                 pass
+
+
+
+def update():
+    link_start.tutel.New_World.UnlimitedMazeWorks.update()
+    if link_start.sequel is None:
+        return 
+    link_start.sequel._Sequel__world.the_world.visit(link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
