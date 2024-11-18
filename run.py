@@ -12,7 +12,7 @@ class FirstWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/pig4.png')  # 缓存背景图像
 
     def paintEvent(self, event=None):
         painter = QPainter(self)
@@ -28,7 +28,7 @@ class FirstWindow(QWidget):
             painter = QPainter(self)
 
             # 绘制半透明背景
-            painter.setOpacity(0.8)
+            painter.setOpacity(0.9)
             painter.fillRect(self.rect(), QColor(255, 255, 255))
 
             # 恢复透明度为1，绘制文本
@@ -84,7 +84,7 @@ class SecondWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/beauty4.png')  # 缓存背景图像
 
     def initUI(self):
         uic.loadUi('mainwindow/Second.ui', self)
@@ -97,20 +97,31 @@ class SecondWindow(QWidget):
         font_label = QFont()
         font_label.setPointSize(25)  # 设置标签字体大小
         self.label.setFont(font_label)
-        font_label.setPointSize(15)  # 设置标签字体大小
+        font_label.setPointSize(20)  # 设置标签字体大小
         self.label_3.setFont(font_label)
         # self.label_3.setFixedSize(250, 100)  # 设置按钮大小
         # self.label_4.setFixedSize(250, 100)  # 设置按钮大小
         self.label_4.setFont(font_label)
         self.label_5.setFont(font_label)
+        font_label.setPointSize(15)  # 设置标签字体大小
+        self.l1.setFont(font_label)
+        self.l2.setFont(font_label)
+        self.l1.setText("10")  # 设置初始值
+        self.l2.setText("10")  # 设置初始值
 
-        self.pushButton.setFixedSize(250, 100)  # 设置按钮大小
-        self.pushButton_2.setFixedSize(250, 100)  # 设置按钮大小
+        self.pushButton.setFixedSize(300, 100)  # 设置按钮大小
+        self.pushButton_2.setFixedSize(300, 100)  # 设置按钮大小
         self.pushButton.setFont(font_label)
         self.pushButton_2.setFont(font_label)
 
+        self.comboBox.setFixedSize(200, 40)
+        self.comboBox.setFont(font_label)
+
         # 获取布局并设置为透明背景
         self.verticalLayout = self.findChild(QVBoxLayout, 'verticalLayout')  # 确保 'verticalLayout' 是您在 Designer 中布局的名称
+        # 设置按钮的背景透明度为 50%（白色背景）
+        self.pushButton.setStyleSheet("background-color: rgba(255, 255, 255, 200);")  # 白色背景，50%透明度
+        self.pushButton_2.setStyleSheet("background-color: rgba(255, 255,255,200);")  # 白色背景，50%透明度
 
         self.pushButton.clicked.connect(self.button_clicked)
         self.pushButton_2.clicked.connect(self.button_clicked_2)
@@ -122,7 +133,7 @@ class SecondWindow(QWidget):
                            self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
         # 绘制半透明背景
-        painter.setOpacity(0.8)  # 设置透明度为50%
+        painter.setOpacity(0.6)  # 设置透明度为50%
         painter.fillRect(self.verticalLayout.geometry(), QColor(255, 255, 255))  # 填充半透明背景
 
     def button_clicked(self):
@@ -144,6 +155,7 @@ class SecondWindow(QWidget):
             case 'ReversiveDivision':
                 maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
         link_start.show_maze(maze)
+        global sequel
         sequel = link_start.Sequel(maze)
         sequel.solve(astar=True)
         sequel.sktCoat(False)
@@ -175,7 +187,7 @@ class ThirdWindow(QWidget):
     def __init__(self, message):
         super().__init__()
         self.initUI(message)
-        self.background_pixmap = QPixmap('mainwindow/bizhi.jpg')  # 缓存背景图像
+        self.background_pixmap = QPixmap('mainwindow/beauty5.png')  # 缓存背景图像
 
     def initUI(self, message):
         uic.loadUi('mainwindow/Third.ui', self)
@@ -188,13 +200,15 @@ class ThirdWindow(QWidget):
         self.label.setFixedSize(700, 200)  # 设置按钮大小
         # 设置标签的字体大小
         font_label = QFont()
-        font_label.setPointSize(25)  # 设置标签字体大小
+        font_label.setPointSize(30)  # 设置标签字体大小
         self.label.setFont(font_label)
-        font_label.setPointSize(15)  # 设置标签字体大小
+        font_label.setPointSize(20)  # 设置标签字体大小
         self.l2.setFont(font_label)
         # self.label_3.setFixedSize(250, 100)  # 设置按钮大小
         # self.label_4.setFixedSize(250, 100)  # 设置按钮大小
         self.l1.setFont(font_label)
+        self.comboBox.setFont(font_label)
+        self.comboBox_2.setFont(font_label)
 
         self.pushButton.setFixedSize(250, 100)  # 设置按钮大小
         self.pushButton.setFont(font_label)
@@ -238,7 +252,7 @@ class ThirdWindow(QWidget):
 
 def update():
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
-    if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None:
+    if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None and sequel is not None:
         sequel._Sequel__world.the_world.visit(
             link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
 
