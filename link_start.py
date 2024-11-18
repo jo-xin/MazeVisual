@@ -87,15 +87,16 @@ class Sequel:
         else:
             raise ValueError("Solver not selected")
 
-    def sktCoat(self, smooth_criminal=True):
+    def sktCoat(self, smooth_criminal=True, show_maze=False):
         if self.__path.empty():
             raise ValueError("The path is empty. Try SOLVEing the maze")
 
-        gp = Glue.aco(self.__ruinswald, True)
+        if not show_maze:
+            gp = Glue.aco(self.__ruinswald, True)
 
-        self.__path.put((-100, -100))
-        while not gp.empty():
-            self.__path.put(gp.get())
+            self.__path.put((-100, -100))
+            while not gp.empty():
+                self.__path.put(gp.get())
 
         tutel.New_World.UnlimitedMazeWorks.UMW_camera_static(self.__oldwald)
         tutel.New_World.UnlimitedMazeWorks.UMW_ball_walk(self.__path, smooth_criminal)
@@ -161,7 +162,7 @@ def show_maze(maze: Maze_base.BasicMaze):
 
     sequel = Sequel(maze)
     sequel._Sequel__path.put(maze.origin)
-    sequel.sktCoat(True)
+    sequel.sktCoat(False, True)
 
 
 if __name__ == '__main__':

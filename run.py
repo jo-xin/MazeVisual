@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLay
 from PyQt5 import uic
 from PyQt5.QtGui import QFont, QPainter, QColor, QPixmap
 from PyQt5.QtCore import Qt
-import link_start
 
-sequel = link_start.sequel
+
+sequel = None
+
 
 
 class FirstWindow(QWidget):
@@ -145,6 +146,12 @@ class SecondWindow(QWidget):
         row = int(row)
         column = int(column)
 
+
+        import link_start
+        global sequel
+        sequel = link_start.sequel
+
+
         match combo_text:
             case 'Kruskal':
                 maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
@@ -155,10 +162,10 @@ class SecondWindow(QWidget):
             case 'ReversiveDivision':
                 maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
         link_start.show_maze(maze)
-        global sequel
-        sequel = link_start.Sequel(maze)
-        sequel.solve(astar=True)
-        sequel.sktCoat(False)
+
+        # sequel = link_start.Sequel(maze)
+        # sequel.solve(astar=True)
+        # sequel.sktCoat(False)
 
     def button_clicked_2(self):
         # 获取 ComboBox 的文本
@@ -168,6 +175,10 @@ class SecondWindow(QWidget):
         column = self.l2.text()
         row = int(row)
         column = int(column)
+
+        import link_start
+        global sequel
+        sequel = link_start.sequel
 
         match combo_text:
             case 'Kruskal':
@@ -229,6 +240,7 @@ class ThirdWindow(QWidget):
         method = self.comboBox.currentText()
         judge = True if self.comboBox_2.currentText() == 'True' else False
 
+        import link_start
         global sequel
         sequel = link_start.Sequel(message)
 
@@ -251,6 +263,7 @@ class ThirdWindow(QWidget):
 
 
 def update():
+    import link_start
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
     if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None and sequel is not None:
         sequel._Sequel__world.the_world.visit(
