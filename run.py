@@ -1,9 +1,10 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel,QVBoxLayout,QSpacerItem,QSizePolicy
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QSpacerItem, QSizePolicy
 from PyQt5 import uic
 from PyQt5.QtGui import QFont, QPainter, QColor, QPixmap
 from PyQt5.QtCore import Qt
 import link_start
+
 sequel = link_start.sequel
 
 
@@ -16,7 +17,8 @@ class FirstWindow(QWidget):
     def paintEvent(self, event=None):
         painter = QPainter(self)
         # 绘制背景图片，适应窗口大小
-        painter.drawPixmap(0, 0, self.width(), self.height(), self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
+        painter.drawPixmap(0, 0, self.width(), self.height(),
+                           self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
     def initUI(self):
         uic.loadUi('mainwindow/First.ui', self)
@@ -59,6 +61,7 @@ class FirstWindow(QWidget):
         self.second_window = SecondWindow()
         self.second_window.show()
         self.close()  # 关闭当前窗口
+
 
 class TransparentLabel(QLabel):
     def __init__(self, text, parent=None):
@@ -106,7 +109,7 @@ class SecondWindow(QWidget):
         self.pushButton.setFont(font_label)
         self.pushButton_2.setFont(font_label)
 
-         # 获取布局并设置为透明背景
+        # 获取布局并设置为透明背景
         self.verticalLayout = self.findChild(QVBoxLayout, 'verticalLayout')  # 确保 'verticalLayout' 是您在 Designer 中布局的名称
 
         self.pushButton.clicked.connect(self.button_clicked)
@@ -115,7 +118,8 @@ class SecondWindow(QWidget):
     def paintEvent(self, event=None):
         painter = QPainter(self)
         # 绘制背景图片，适应窗口大小
-        painter.drawPixmap(0, 0, self.width(), self.height(), self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
+        painter.drawPixmap(0, 0, self.width(), self.height(),
+                           self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
         # 绘制半透明背景
         painter.setOpacity(0.8)  # 设置透明度为50%
@@ -132,13 +136,13 @@ class SecondWindow(QWidget):
 
         match combo_text:
             case 'Kruskal':
-                maze = link_start.GeneratingMethod.KruskalAlgorithm(row,column)
+                maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
             case 'Prim':
-                maze = link_start.GeneratingMethod.PrimAlgorithm(row,column)
+                maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
             case 'DFS':
-                maze = link_start.GeneratingMethod.Dfs(row,column)
+                maze = link_start.GeneratingMethod.Dfs(row, column)
             case 'ReversiveDivision':
-                maze = link_start.GeneratingMethod.RecursiveDivision(row,column)
+                maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
         link_start.show_maze(maze)
         sequel = link_start.Sequel(maze)
         sequel.solve(astar=True)
@@ -155,18 +159,18 @@ class SecondWindow(QWidget):
 
         match combo_text:
             case 'Kruskal':
-                maze = link_start.GeneratingMethod.KruskalAlgorithm(row,column)
+                maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
             case 'Prim':
-                maze = link_start.GeneratingMethod.PrimAlgorithm(row,column)
+                maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
             case 'DFS':
-                maze = link_start.GeneratingMethod.Dfs(row,column)
+                maze = link_start.GeneratingMethod.Dfs(row, column)
             case 'ReversiveDivision':
-                maze = link_start.GeneratingMethod.RecursiveDivision(row,column)
-        
+                maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
+
         self.third_window = ThirdWindow(maze)
         self.third_window.show()
-        
-        
+
+
 class ThirdWindow(QWidget):
     def __init__(self, message):
         super().__init__()
@@ -195,17 +199,17 @@ class ThirdWindow(QWidget):
         self.pushButton.setFixedSize(250, 100)  # 设置按钮大小
         self.pushButton.setFont(font_label)
 
-
     def paintEvent(self, event=None):
         painter = QPainter(self)
         # 绘制背景图片，适应窗口大小
-        painter.drawPixmap(0, 0, self.width(), self.height(), self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
+        painter.drawPixmap(0, 0, self.width(), self.height(),
+                           self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
         # 绘制半透明背景
         painter.setOpacity(0.8)  # 设置透明度为50%
         painter.fillRect(self.verticalLayout.geometry(), QColor(255, 255, 255))  # 填充半透明背景
 
-    def button_clicked(self,message):
+    def button_clicked(self, message):
         # 获取 LineEdit 的文本
         print(type(message))
         method = self.comboBox.currentText()
@@ -213,24 +217,30 @@ class ThirdWindow(QWidget):
 
         global sequel
         sequel = link_start.Sequel(message)
+
+        if judge:
+            sequel.player()
+
         match method:
             case 'Astar':
                 sequel.solve(astar=True)
-                sequel.sktCoat(judge)
+                sequel.sktCoat(False)
             case 'DFS':
                 sequel.solve(dfs=True)
                 sequel.minecraft()
             case 'BFS':
                 sequel.solve(bfs=True)
-                sequel.sktCoat(judge)
+                sequel.sktCoat(False)
             case 'ACO':
                 sequel.solve(aco=True)
-                sequel.minecraft()
+                sequel.sktCoat(False)
 
 
 def update():
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
-    sequel._Sequel__world.the_world.visit(link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+    if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None:
+        sequel._Sequel__world.the_world.visit(
+            link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
 
 
 def main():
@@ -238,6 +248,7 @@ def main():
     first_window = FirstWindow()
     first_window.show()
     sys.exit(app.exec_())
+
 
 if __name__ == '__main__':
     main()

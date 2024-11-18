@@ -75,7 +75,7 @@
        <item>
         <widget class="QLabel" name="l2">
          <property name="text">
-          <string>True？</string>
+          <string>FirstPersonController</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
