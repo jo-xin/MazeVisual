@@ -119,6 +119,9 @@ class SecondWindow(QWidget):
 
         # 获取布局并设置为透明背景
         self.verticalLayout = self.findChild(QVBoxLayout, 'verticalLayout')  # 确保 'verticalLayout' 是您在 Designer 中布局的名称
+        # 设置按钮的背景透明度为 50%（白色背景）
+        self.pushButton.setStyleSheet("background-color: rgba(255, 255, 255, 200);")  # 白色背景，50%透明度
+        self.pushButton_2.setStyleSheet("background-color: rgba(255, 255,255,200);")  # 白色背景，50%透明度
 
         self.pushButton.clicked.connect(self.button_clicked)
         self.pushButton_2.clicked.connect(self.button_clicked_2)
@@ -217,7 +220,7 @@ class ThirdWindow(QWidget):
                            self.background_pixmap.scaled(self.size(), aspectRatioMode=1))
 
         # 绘制半透明背景
-        painter.setOpacity(0.6)  # 设置透明度为50%
+        painter.setOpacity(0.8)  # 设置透明度为50%
         painter.fillRect(self.verticalLayout.geometry(), QColor(255, 255, 255))  # 填充半透明背景
 
     def button_clicked(self, message):
