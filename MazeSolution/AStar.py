@@ -1,8 +1,11 @@
 import queue
+from math import sqrt
+
 from Maze_base import BasicMaze
 
 def get_h(x:int,y:int,target):
-    return abs(x-target[0])+abs(y-target[1])
+    # return abs(x-target[0])+abs(y-target[1])
+    return sqrt((x-target[0])**2+(y-target[1])**2)
 
 def AStar(maze:BasicMaze, x:int,y:int,dist:int,que:queue.PriorityQueue,history:queue.Queue):
     if x == maze.target[0] and y == maze.target[1]:

@@ -12,6 +12,8 @@ import MazeSolution
 import tutel
 import Maze_base
 
+
+
 class Glue:
     @staticmethod
     def dfs(x_lim: int, y_lim: int) -> Maze_base.BasicMaze:
@@ -48,7 +50,7 @@ class Glue:
 
 
 class GeneratingMethod:
-    Dfs: Callable[[int, int], Maze_base.BasicMaze] = Glue.dfs
+    Dfs: Callable[[int, int], Maze_base.BasicMaze] = MazeGeneration.Dfs.generate
     KruskalAlgorithm: Callable[[int, int], Maze_base.BasicMaze] = MazeGeneration.KruskalAlgorithm.generate
     PrimAlgorithm: Callable[[int, int], Maze_base.BasicMaze] = MazeGeneration.PrimAlgorithm.generate
     RecursiveDivision: Callable[[int, int], Maze_base.BasicMaze] = MazeGeneration.RecursiveDivision.generate
@@ -111,7 +113,7 @@ def update():
 
 def test_minecraft():
     global sequel
-    maze = GeneratingMethod.PrimAlgorithm(5, 5)
+    maze = GeneratingMethod.PrimAlgorithm(7, 7)
 
     sequel = Sequel(maze)
     sequel.solve(dfs=True)
@@ -123,12 +125,12 @@ def test_sky01():
     maze = GeneratingMethod.PrimAlgorithm(15, 15)
 
     sequel = Sequel(maze)
-    sequel.solve(aco=True)
-    sequel.sktCoat(True)
+    sequel.solve(bfs=True)
+    sequel.sktCoat(False)
 
 def test_sky02():
     global sequel
-    maze = GeneratingMethod.PrimAlgorithm(15, 15)
+    maze = GeneratingMethod.PrimAlgorithm(20, 20)
 
     sequel = Sequel(maze)
     sequel.solve(astar=True)
@@ -144,4 +146,5 @@ def show_maze(maze: Maze_base.BasicMaze):
 
 
 if __name__ == '__main__':
-    show_maze(GeneratingMethod.KruskalAlgorithm(10, 10))
+    test_sky02()
+
