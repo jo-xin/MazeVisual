@@ -7,33 +7,24 @@ def generate(x, y):
     rows = x // 2
     columns = y // 2
     result = BasicMaze(rows, columns)
-
     linked = [False] * (rows * columns)
     linked[0] = True
-
     paths = {(0, 1), (0, columns)}
-
     random.seed()  # Initialize random number generator
-
     connected = set()
-
     while paths:
         # Randomly select a path in paths
         pos = random.randint(0, len(paths) - 1)
         current_path = list(paths)[pos]
-
         # Connect the two nodes of the path
         connected.add((current_path[0], current_path[1]))
-
         # Determine which node is currently linked
         if not linked[current_path[0]]:
             current = current_path[0]
         else:
             current = current_path[1]
-
         # Add the node to linked
         linked[current] = True
-
         # Add all unvisited paths to paths and delete all invalid paths
         for neighbor in result.find_surround(current//columns, current%columns):
             neighbor = neighbor[0] * columns + neighbor[1]

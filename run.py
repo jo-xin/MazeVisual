@@ -14,6 +14,7 @@ class FirstWindow(QWidget):
         super().__init__()
         self.initUI()
         self.background_pixmap = QPixmap('mainwindow/pig4.png')  # 缓存背景图像
+        self.setWindowTitle("Welcome")  # 设置窗体标题
 
     def paintEvent(self, event=None):
         painter = QPainter(self)
@@ -86,6 +87,7 @@ class SecondWindow(QWidget):
         super().__init__()
         self.initUI()
         self.background_pixmap = QPixmap('mainwindow/beauty4.png')  # 缓存背景图像
+        self.setWindowTitle("Maze_Generation")  # 设置窗体标题
 
     def initUI(self):
         uic.loadUi('mainwindow/Second.ui', self)
@@ -199,6 +201,7 @@ class ThirdWindow(QWidget):
         super().__init__()
         self.initUI(message)
         self.background_pixmap = QPixmap('mainwindow/beauty5.png')  # 缓存背景图像
+        self.setWindowTitle("Maze_Solving")  # 设置窗体标题
 
     def initUI(self, message):
         uic.loadUi('mainwindow/Third.ui', self)
