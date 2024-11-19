@@ -3,7 +3,7 @@
 # @Time    : 2024/11/16 23:01
 # @Author  : jo-xin
 # @File    : link_start.py
-
+import time
 from typing import Callable
 from queue import Queue
 
@@ -12,6 +12,7 @@ import MazeSolution
 import tutel
 import Maze_base
 
+from ursina import application, held_keys, Entity
 
 
 class Glue:
@@ -74,6 +75,10 @@ class Sequel:
     def __run(self):
         tutel.New_World.application.run()
 
+    def stop(self):
+        from ursina import application
+        application.running = False
+
     def solve(self, dfs=False, bfs=False, astar=False, aco=False):
         if dfs:
             path = SolvingMethod.Dfs(self.__ruinswald)
@@ -118,10 +123,17 @@ class Sequel:
 
 sequel: Sequel | None = None
 
+
 def update():
     tutel.New_World.UnlimitedMazeWorks.update()
     if tutel.New_World.UnlimitedMazeWorks.m_walker is not None:
         sequel._Sequel__world.the_world.visit(tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+
+
+    if held_keys['q']:
+        application.quit()
+
+
 
 
 
@@ -144,7 +156,7 @@ def test_sky01():
 
 def test_sky02():
     global sequel
-    maze = GeneratingMethod.PrimAlgorithm(20, 20)
+    maze = GeneratingMethod.PrimAlgorithm(7, 7)
 
     sequel = Sequel(maze)
     sequel.solve(astar=True)

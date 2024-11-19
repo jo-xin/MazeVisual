@@ -1,12 +1,97 @@
 import sys
+import time
+from dataclasses import dataclass
+
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QSpacerItem, QSizePolicy
 from PyQt5 import uic
 from PyQt5.QtGui import QFont, QPainter, QColor, QPixmap
 from PyQt5.QtCore import Qt
-
+from ursina import application, held_keys, Entity
 
 sequel = None
 
+@dataclass
+class Choice:
+    generatingMethod: str = ''
+    solvingMethod: str = ''
+    x_lim: int = 0
+    y_lim: int = 0
+    player: bool = False
+
+
+
+ccc = Choice()
+
+current_process = None
+
+t = 1
+
+def show_maze(cc):
+
+    import link_start
+
+    class A(Entity):
+        def update(self):
+            update()
+    A()
+
+    match cc.generatingMethod:
+        case 'Kruskal':
+            maze = link_start.GeneratingMethod.KruskalAlgorithm(cc.x_lim, cc.y_lim)
+        case 'Prim':
+            maze = link_start.GeneratingMethod.PrimAlgorithm(cc.x_lim, cc.y_lim)
+        case 'DFS':
+            maze = link_start.GeneratingMethod.Dfs(cc.x_lim, cc.y_lim)
+        case 'ReversiveDivision':
+            maze = link_start.GeneratingMethod.RecursiveDivision(cc.x_lim, cc.y_lim)
+    link_start.show_maze(maze)
+
+
+def solve_maze(cc):
+    import link_start
+    match cc.generatingMethod:
+        case 'Kruskal':
+            maze = link_start.GeneratingMethod.KruskalAlgorithm(cc.x_lim, cc.y_lim)
+        case 'Prim':
+            maze = link_start.GeneratingMethod.PrimAlgorithm(cc.x_lim, cc.y_lim)
+        case 'DFS':
+            maze = link_start.GeneratingMethod.Dfs(cc.x_lim, cc.y_lim)
+        case 'ReversiveDivision':
+            maze = link_start.GeneratingMethod.RecursiveDivision(cc.x_lim, cc.y_lim)
+
+    import link_start
+
+    global sequel
+    sequel = link_start.Sequel(maze)
+
+    class A(Entity):
+        def update(self):
+            update()
+    A()
+
+    if cc.player:
+        sequel.player()
+
+    match cc.solvingMethod:
+        case 'Astar':
+            sequel.solve(astar=True)
+            sequel.sktCoat(False)
+        case 'DFS':
+            sequel.solve(dfs=True)
+            sequel.minecraft()
+        case 'BFS':
+            sequel.solve(bfs=True)
+            sequel.sktCoat(False)
+        case 'ACO':
+            sequel.solve(aco=True)
+            sequel.sktCoat(False)
+
+def start_process(func, choice):
+    global current_process
+    if current_process and current_process.is_alive():
+        current_process.terminate()
+    current_process = Process(target=func, args=(choice,))
+    current_process.start()
 
 
 class FirstWindow(QWidget):
@@ -149,21 +234,33 @@ class SecondWindow(QWidget):
         column = int(column)
 
 
-        import link_start
-        global sequel
-        sequel = link_start.sequel
+        # import link_start
+        # global sequel
+        # sequel = link_start.sequel
+
+        # Choice.generatingMethod = combo_text
+        # Choice.x_lim = row
+        # Choice.y_lim = column
+        
+        global ccc
+        ccc.generatingMethod = combo_text
+        ccc.x_lim = row
+        ccc.y_lim = column
 
 
-        match combo_text:
-            case 'Kruskal':
-                maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
-            case 'Prim':
-                maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
-            case 'DFS':
-                maze = link_start.GeneratingMethod.Dfs(row, column)
-            case 'ReversiveDivision':
-                maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
-        link_start.show_maze(maze)
+        start_process(show_maze, ccc)
+
+
+        # match combo_text:
+        #     case 'Kruskal':
+        #         maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
+        #     case 'Prim':
+        #         maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
+        #     case 'DFS':
+        #         maze = link_start.GeneratingMethod.Dfs(row, column)
+        #     case 'ReversiveDivision':
+        #         maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
+        # link_start.show_maze(maze)
 
         # sequel = link_start.Sequel(maze)
         # sequel.solve(astar=True)
@@ -178,21 +275,30 @@ class SecondWindow(QWidget):
         row = int(row)
         column = int(column)
 
-        import link_start
-        global sequel
-        sequel = link_start.sequel
+        # Choice.x_lim = row
+        # Choice.y_lim = column
+        # Choice.generatingMethod = combo_text
+        
+        global ccc
+        ccc.x_lim = row
+        ccc.y_lim = column
+        ccc.generatingMethod = combo_text
 
-        match combo_text:
-            case 'Kruskal':
-                maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
-            case 'Prim':
-                maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
-            case 'DFS':
-                maze = link_start.GeneratingMethod.Dfs(row, column)
-            case 'ReversiveDivision':
-                maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
+        # import link_start
+        # global sequel
+        # sequel = link_start.sequel
+        #
+        # match combo_text:
+        #     case 'Kruskal':
+        #         maze = link_start.GeneratingMethod.KruskalAlgorithm(row, column)
+        #     case 'Prim':
+        #         maze = link_start.GeneratingMethod.PrimAlgorithm(row, column)
+        #     case 'DFS':
+        #         maze = link_start.GeneratingMethod.Dfs(row, column)
+        #     case 'ReversiveDivision':
+        #         maze = link_start.GeneratingMethod.RecursiveDivision(row, column)
 
-        self.third_window = ThirdWindow(maze)
+        self.third_window = ThirdWindow(None)
         self.third_window.show()
 
 
@@ -243,34 +349,54 @@ class ThirdWindow(QWidget):
         method = self.comboBox.currentText()
         judge = True if self.comboBox_2.currentText() == 'True' else False
 
-        import link_start
-        global sequel
-        sequel = link_start.Sequel(message)
+        global Choice
+        Choice.player = judge
+        Choice.solvingMethod = method
+        global t
+        t = 2
+        
+        global ccc
+        ccc.player = judge
+        ccc.solvingMethod = method
 
-        if judge:
-            sequel.player()
+        start_process(solve_maze, ccc)
 
-        match method:
-            case 'Astar':
-                sequel.solve(astar=True)
-                sequel.sktCoat(False)
-            case 'DFS':
-                sequel.solve(dfs=True)
-                sequel.minecraft()
-            case 'BFS':
-                sequel.solve(bfs=True)
-                sequel.sktCoat(False)
-            case 'ACO':
-                sequel.solve(aco=True)
-                sequel.sktCoat(False)
+        # import link_start
+        # global sequel
+        # sequel = link_start.Sequel(message)
+        #
+        # if judge:
+        #     sequel.player()
+        #
+        # match method:
+        #     case 'Astar':
+        #         sequel.solve(astar=True)
+        #         sequel.sktCoat(False)
+        #     case 'DFS':
+        #         sequel.solve(dfs=True)
+        #         sequel.minecraft()
+        #     case 'BFS':
+        #         sequel.solve(bfs=True)
+        #         sequel.sktCoat(False)
+        #     case 'ACO':
+        #         sequel.solve(aco=True)
+        #         sequel.sktCoat(False)
 
-
+from multiprocessing import Process
 def update():
     import link_start
+    from ursina import held_keys
+    if held_keys['q']:
+        global current_process
+        if current_process and current_process.is_alive():
+            current_process.terminate()
+
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
     if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None and sequel is not None:
         sequel._Sequel__world.the_world.visit(
             link_start.tutel.New_World.UnlimitedMazeWorks.m_walker.object.object.position)
+
+
 
 
 def main():
@@ -281,4 +407,5 @@ def main():
 
 
 if __name__ == '__main__':
+    current_process = None
     main()

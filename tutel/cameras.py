@@ -93,9 +93,11 @@ class Stepper:
         # print(f"At {self.ima} doing {step.delta}")
         # print(time.dt)
         self.ticks_ahead = step.duration // time.dt
-        self.delta = step.delta / self.ticks_ahead
         self.target = current_position + step.delta
         self.walking = True
+        if self.ticks_ahead != 0:
+            self.delta = step.delta / self.ticks_ahead
+
 
 
 class MovingObject:
