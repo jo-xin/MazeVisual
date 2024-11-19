@@ -85,7 +85,7 @@ class UnlimitedMazeWorks:
     @classmethod
     def UMW_player(cls, origin: tuple[int, int]):
         player = FirstPersonController()
-        player.position = (origin[0], 1, origin[1])
+        player.position = (origin[0], 2, origin[1])
 
 
 
