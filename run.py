@@ -64,13 +64,15 @@ def solve_maze(cc):
     global sequel
     sequel = link_start.Sequel(maze)
 
+    if cc.player:
+        sequel.player()
+
     class A(Entity):
         def update(self):
             update()
     A()
 
-    if cc.player:
-        sequel.player()
+
 
     match cc.solvingMethod:
         case 'Astar':
@@ -386,10 +388,10 @@ from multiprocessing import Process
 def update():
     import link_start
     from ursina import held_keys
-    if held_keys['q']:
-        global current_process
-        if current_process and current_process.is_alive():
-            current_process.terminate()
+    # if held_keys['q']:
+    #     global current_process
+    #     if current_process and current_process.is_alive():
+    #         current_process.terminate()
 
     link_start.tutel.New_World.UnlimitedMazeWorks.update()
     if link_start.tutel.New_World.UnlimitedMazeWorks.m_walker is not None and sequel is not None:
